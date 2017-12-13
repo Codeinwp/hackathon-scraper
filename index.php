@@ -94,7 +94,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                     </a>
                 </p>
                 <p class="control">
-                    <a class="button is-info" href="#">
+                    <a href="https://docs.google.com/document/d/1WH3MrvDfyVsiR-lMfuzo86-dVJk-O1lVmPwph-ArHUg" class="button is-info" href="#">
                     <span class="icon">
                         <i class="fa fa-slideshare"></i>
                     </span>
@@ -189,45 +189,6 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
             </table>
         </section>
         <footer class="footer">
-            <div class="container">
-                <div class="content has-text-centered">
-                    <p>
-                        <strong>Theme Scrapper</strong> by <a href="http://github.com/rodica-andronache">Rodica</a>,
-                                                            <a href="http://github.com/preda-bogdan">Bogdan</a>, 
-                                                            <a href="http://github.com/poonam279">Poonam</a>,
-                                                            <a href="http://github.com/rohittm">Rohit</a>, and
-                                                            <a href="http://github.com/FitzChris">Chris</a>
-                    </p>
-                </div>
-                <div class="control">
-                    <a class="button is-info">
-                        Search
-                    </a>
-                </div>
-            </div>
-
-        </div>
-        </div>
-    </section>
-    <section>
-        <table class="table is-hoverable is-stripped middle">
-            <thead>
-                <tr>
-                    <th width="250px">Link</th>
-                    <th width="150px">Theme Name</th>
-                    <th width="150px">Status</th>                
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Link here</td>
-                    <td>Theme name here</td>
-                    <td>Active?</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-    <footer class="footer">
         <div class="container">
             <div class="content has-text-centered">
                 <p>
