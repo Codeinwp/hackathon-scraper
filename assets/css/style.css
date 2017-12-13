@@ -26,3 +26,12 @@
 .footer {
     height: 100px;
 }
+
+.control .button {
+    height: 50px;
+}
+
+.control .input {
+    height: 50px;
+    width: 500px;
+}

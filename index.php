@@ -66,72 +66,72 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
             <span></span>
             </div>
         </div>
+    </div>
 
-        <div id="navbarExampleTransparentExample" class="navbar-menu">
-            <div class="navbar-start">
-            </div>
+    <div id="navbarExampleTransparentExample" class="navbar-menu">
+        <div class="navbar-start">
+        </div>
 
-            <div class="navbar-end">
-            <div class="navbar-item">
-                <div class="field is-grouped">
-                    <p class="control">
-                        <a class="bd-tw-button button" target="_blank" href="https://github.com/Codeinwp/hackathon-scraper">
-                        <span class="icon">
-                            <i class="fa fa-github"></i>
-                        </span>
-                        <span>
-                            View Source
-                        </span>
-                        </a>
-                    </p>
-                    <p class="control">
-                        <a class="button is-primary" href="https://github.com/Codeinwp/hackathon-scraper#hackathon-scraper">
-                        <span class="icon">
-                            <i class="fa fa-book"></i>
-                        </span>
-                        <span>Docs</span>
-                        </a>
-                    </p>
-                    <p class="control">
-                        <a class="button is-info" href="#">
-                        <span class="icon">
-                            <i class="fa fa-slideshare"></i>
-                        </span>
-                        <span>Presentation</span>
-                        </a>
-                    </p>
-                </div>
-            </div>
+        <div class="navbar-end">
+        <div class="navbar-item">
+            <div class="field is-grouped">
+                <p class="control">
+                    <a class="bd-tw-button button" target="_blank" href="https://github.com/Codeinwp/hackathon-scraper">
+                    <span class="icon">
+                        <i class="fa fa-github"></i>
+                    </span>
+                    <span>
+                        View Source
+                    </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button is-primary" href="https://github.com/Codeinwp/hackathon-scraper#hackathon-scraper">
+                    <span class="icon">
+                        <i class="fa fa-book"></i>
+                    </span>
+                    <span>Docs</span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button is-info" href="#">
+                    <span class="icon">
+                        <i class="fa fa-slideshare"></i>
+                    </span>
+                    <span>Presentation</span>
+                    </a>
+                </p>
             </div>
         </div>
-        </nav>
+        </div>
+    </div>
+    </nav>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
 
-            // Get all "navbar-burger" elements
-            var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+        // Get all "navbar-burger" elements
+        var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
-            // Check if there are any navbar burgers
-            if ($navbarBurgers.length > 0) {
+        // Check if there are any navbar burgers
+        if ($navbarBurgers.length > 0) {
 
-                // Add a click event on each of them
-                $navbarBurgers.forEach(function ($el) {
-                $el.addEventListener('click', function () {
+            // Add a click event on each of them
+            $navbarBurgers.forEach(function ($el) {
+            $el.addEventListener('click', function () {
 
-                    // Get the target from the "data-target" attribute
-                    var target = $el.dataset.target;
-                    var $target = document.getElementById(target);
-
-                    // Toggle the class on both the "navbar-burger" and the "navbar-menu"
-                    $el.classList.toggle('is-active');
-                    $target.classList.toggle('is-active');
-
-                    });
-                });
-            }
+                // Get the target from the "data-target" attribute
+                var target = $el.dataset.target;
+                var $target = document.getElementById(target);
+	            // Toggle the class on both the "navbar-burger" and the "navbar-menu"
+	            $el.classList.toggle('is-active');
+	            $target.classList.toggle('is-active');
 
             });
+            });
+        }
+
+        });
         </script>
         <section class="hero is-primary">
             <div class="hero-body">
@@ -199,7 +199,46 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                                                             <a href="http://github.com/FitzChris">Chris</a>
                     </p>
                 </div>
+                <div class="control">
+                    <a class="button is-info">
+                        Search
+                    </a>
+                </div>
             </div>
-        </footer>
-    </body>
+
+        </div>
+        </div>
+    </section>
+    <section>
+        <table class="table is-hoverable is-stripped middle">
+            <thead>
+                <tr>
+                    <th width="250px">Link</th>
+                    <th width="150px">Theme Name</th>
+                    <th width="150px">Status</th>                
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Link here</td>
+                    <td>Theme name here</td>
+                    <td>Active?</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>Theme Scraper</strong> by <a href="http://github.com/rodica-andronache">Rodica</a>,
+                                                        <a href="http://github.com/preda-bogdan">Bogdan</a>, 
+                                                        <a href="http://github.com/poonam279">Poonam</a>,
+                                                        <a href="http://github.com/rohittm">Rohit</a>, and
+                                                        <a href="http://github.com/FitzChris">Chris</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
 </html>

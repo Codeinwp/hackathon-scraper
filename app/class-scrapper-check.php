@@ -1,6 +1,7 @@
 <?php
 
 require_once 'class-scrapper-parser.php';
+require_once 'class-send-email.php';
 
 class Scrapper_Check {
 
@@ -46,6 +47,8 @@ class Scrapper_Check {
                 array_push( $results, true );
             } else {
                 array_push( $results, false );
+                $email = new Send_Email();
+                $email->sendEmail();
             }
 
         }
