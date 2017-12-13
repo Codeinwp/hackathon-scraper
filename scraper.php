@@ -7,10 +7,18 @@ define( 'ROOT', dirname( __FILE__ ) );
 
 
 $grabber = new Link_Grabber();
-print_r( $grabber->get_links()->slice(5 )->to_array() );
-print_r( $grabber->get_links()->slice(-2 )->to_json() );
+$test_links = $grabber->get_links()->slice(1 )->to_array();
 
-$parser = new Scrapper_Parser( 'http://morshed-alam.com/' );
+//print_r( $test_links );
+//
+foreach ( $test_links as $page ) {
+	$parser = new Scrapper_Parser( $page['link'] );
+	$content = $parser->getContent();
 
-$content = $parser->getContent();
+	$doc = new DOMDocument();
+	libxml_use_internal_errors(true);
+	$doc->loadHTML( $content );
+	libxml_clear_errors();
 
+	print_r( $doc->getElementById('carousel-hestia-generic') );
+}
