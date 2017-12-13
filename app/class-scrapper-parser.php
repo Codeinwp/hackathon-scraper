@@ -61,11 +61,49 @@ class Scrapper_Parser {
      * @params boolean $grab, flag to perform real time grab or use class content
      * @returned text $content, truncated text
      */
-    public function getContent( $grab = true )
-    {
+    public function getContent( $grab = true ) {
         if ( $grab )
             $this->grabContent();
         return $this->content;
+    }
+
+    /**
+     * Extract style.css file
+     * @returned string $style_link, style.css link file
+     */
+    private function getStyleCssFile()  {
+        $doc = new DOMDocument();
+        libxml_use_internal_errors(true);
+        $doc->loadHTML( $this->content );
+        libxml_clear_errors();
+
+        $links = $doc->getElementsByTagName('link');
+
+        $style_link = '';
+
+        foreach ( $links as $link ) {
+            if( $link->getAttribute( 'type' ) == 'text/css' ) {
+                if ( preg_match("/\/style.css/",$link->getAttribute( 'href' ) ) ) {
+                    $style_link = $link->getAttribute('href');
+                    continue;
+                }
+            }
+        }
+
+        return $style_link;
+    }
+
+    /**
+     * Extract Theme Name from grab contents
+     * @params boolean $grab, flag to perform real time grab or use class content
+     * @returned array, an array of extracted Theme Name
+     */
+    public function getThemeName( $grab = true, $url ) {
+        if ( $grab )
+            $this->grabContent();
+        $url = $this->getStyleCssFile();
+        return $url;
+        /* TO DO */
     }
 
     /**
