@@ -13,6 +13,8 @@ class Scrapper_Parser {
      */
     public $content = null;
 
+    private $doc;
+
 
     /**
      * cUrl option
@@ -90,4 +92,50 @@ class Scrapper_Parser {
         curl_close($ch);
     }
 
+
+    public function setDoc() {
+    	if ( $this->content ) {
+		    $doc = new DOMDocument();
+		    libxml_use_internal_errors(true);
+		    $doc->loadHTML( $this->content );
+		    libxml_clear_errors();
+		    $this->doc = $doc;
+	    }
+    }
+
+    public function hasOneOfClass( $class_list = array() ) {
+	    if ( empty( $class_list ) ) {
+		    return false;
+	    }
+
+	    if ( $this->doc == null ) {
+		    return false;
+	    }
+
+	    $finder = new DomXPath( $this->doc );
+	    foreach ( $class_list as $element_class ) {
+		    $nodes = $finder->query( "//*[contains(@class, '$element_class')]" );
+		    if( $nodes->length > 0 ) {
+		    	return true;
+		    }
+	    }
+	    return false;
+    }
+
+    public function hasOneOfIds( $id_list = array() ) {
+    	if ( empty( $id_list ) ) {
+    		return false;
+	    }
+
+	    if ( $this->doc == null ) {
+    		return false;
+	    }
+
+	    foreach ( $id_list as $element_id ) {
+		    if ( $this->doc->getElementById( $element_id ) != null ) {
+		    	return true;
+		    }
+	    }
+	    return false;
+    }
 }
