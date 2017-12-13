@@ -1,5 +1,8 @@
 # Hackathon Scraper
 
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat)](https://github.com/Codeinwp/hackathon-scraper)
+[![Build Version](https://img.shields.io/badge/ver-1.0.0-blue.svg)](https://github.com/Codeinwp/hackathon-scraper)
+
 Team 3 Hackathon Project - Scraper module
 
 ## Requirements
@@ -47,4 +50,16 @@ It checks if:
 
 
 If all checks pass it marks the link for that slug as `true`, else it returns `false`
+
+### Team members
+
+Bogdan Preda -- Themeisle -- bogdan.preda@themeisle.com -- @preda-bogdan
+
+Rodica Andronache -- Themeisle -- rodica@themeisle.com -- @rodica_elena91
+
+Rohit Motwani -- Themeisle -- rohit@themeisle.com -- @rohittm
+
+Poonam Namdev -- Themeisle -- poonam@themeisle.com -- @poonamnamdev2
+
+Chris Fitzgerald -- Themeisle -- chris@themeisle.com -- @Chris_inRo
 
