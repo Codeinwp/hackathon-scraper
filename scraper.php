@@ -8,7 +8,7 @@ define( 'ROOT', dirname( __FILE__ ) );
 
 $grabber = new Link_Grabber();
 
-$test_links = $grabber->get_links()->slice(5 )->to_array();
+$test_links = $grabber->get_links()->slice(1 )->to_array();
 
 $scrapper_check = new Scrapper_Check( $test_links );
 

@@ -1,3 +1,38 @@
+<?php
+error_reporting(-1);
+ini_set('display_errors', 'On');
+
+
+require_once 'app/class-scrapper-link-grabber.php';
+require_once 'app/class-scrapper-parser.php';
+require_once 'app/class-scrapper-check.php';
+
+define( 'ROOT', dirname( __FILE__ ) );
+
+$grabber = new Link_Grabber();
+
+$table_size = 2;
+
+$check_links = $grabber->get_links()->slice( $table_size )->to_array();
+$check_links_json = $grabber->get_links()->slice( $table_size )->to_json();
+
+
+if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+	$data = array();
+	$request_body = file_get_contents('php://input');
+	$data = json_decode( $request_body, true );
+	if ( $_GET['api'] == 'check_list' ) {
+		$scrapper_check = new Scrapper_Check( $data );
+		$result = $scrapper_check->checkTheme()->to_json();
+		echo $result;
+    } else if ( $_GET['api'] == 'check_url' ) {
+		$scrapper_check = new Scrapper_Check( $data );
+		$result = $scrapper_check->checkTheme()->to_json();
+		echo $result;
+    }
+	die();
+}
+?>
 <html>
     <head>
         <meta charset="utf-8">
@@ -5,14 +40,25 @@
         <title>Hackathon Scraper</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+
+        <script
+                src="https://code.jquery.com/jquery-3.2.1.min.js"
+                integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+                crossorigin="anonymous"></script>
+        <script src="assets/js/main.js"></script>
+        <script type="application/javascript">
+            <?php
+            echo "var query_links = '" . $check_links_json . "';";
+            ?>
+        </script>
     </head>
     <body>
     <nav class="navbar is-transparent">
         
         <div class="navbar-brand">
             <a class="navbar-item" href="index.php">
-            <img src="logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="150">
+            <img src="assets/img/logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="150">
             </a>
             <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
             <span></span>
@@ -81,7 +127,7 @@
                     $el.classList.toggle('is-active');
                     $target.classList.toggle('is-active');
 
-                });
+                    });
                 });
             }
 
@@ -99,11 +145,17 @@
                 
                 <div class="field has-addons searchbar-middle">
                     <div class="control">
-                        <input class="input" type="text" placeholder="Enter the link">
+                        <input id="check_link" class="input" type="text" placeholder="Enter the link">
+                        <div class="select">
+                            <select id="check_slug">
+                                <option value="hestia">Hestia</option>
+                                <option value="hestia-pro">Hestia Pro</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="control">
-                        <a class="button is-info">
-                            Search
+                        <a class="button is-info" onclick="return get_result();">
+                            Check
                         </a>
                     </div>
                 </div>
@@ -120,12 +172,19 @@
                         <th width="150px">Status</th>                
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="scraper_table_body">
+                <?php
+                foreach ( $check_links as $row ) {
+                    echo '
                     <tr>
-                        <td>Link here</td>
-                        <td>Theme name here</td>
-                        <td>Active?</td>
+                        <td>' . $row['link'] . '</td>
+                        <td>' . $row['slug'] . '</td>
+                        <td><small><i>Checking ...</i></small></td>
                     </tr>
+                    ';
+
+                }
+                ?>
                 </tbody>
             </table>
         </section>
