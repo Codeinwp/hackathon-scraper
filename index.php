@@ -11,7 +11,7 @@ define( 'ROOT', dirname( __FILE__ ) );
 
 $grabber = new Link_Grabber();
 
-$table_size = 2;
+$table_size = 5;
 
 $check_links = $grabber->get_links()->slice( $table_size )->to_array();
 $check_links_json = $grabber->get_links()->slice( $table_size )->to_json();
