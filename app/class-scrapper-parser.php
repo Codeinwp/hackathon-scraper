@@ -13,9 +13,14 @@ class Scrapper_Parser {
      */
     public $content = null;
 
+    /**
+     * DOMDocument instance
+     * @var object
+     */
+    private $doc;
 
     /**
-     * cUrl option
+     * cUrl options
      * @var Array
      */
     private $curl_options = array(
@@ -47,7 +52,7 @@ class Scrapper_Parser {
      * Explicitly clears Parser object from memory upon destruction.
      */
     public function __destruct() {
-        unset($this);
+        unset( $this );
     }
 
     private function _isCurl() {
@@ -63,7 +68,7 @@ class Scrapper_Parser {
      */
     public function getContent( $grab = true ) {
         if ( $grab )
-            $this->grabContent();
+            $this->content = $this->grabContent();
         return $this->content;
     }
 
@@ -72,38 +77,44 @@ class Scrapper_Parser {
      * @returned string $style_link, style.css link file
      */
     private function getStyleCssFile()  {
-        $doc = new DOMDocument();
-        libxml_use_internal_errors(true);
-        $doc->loadHTML( $this->content );
-        libxml_clear_errors();
 
-        $links = $doc->getElementsByTagName('link');
+        if ( $this->doc == null ) {
+            return false;
+        }
 
-        $style_link = '';
+        $links = $this->doc->getElementsByTagName('link');
 
         foreach ( $links as $link ) {
             if( $link->getAttribute( 'type' ) == 'text/css' ) {
                 if ( preg_match("/\/style.css/",$link->getAttribute( 'href' ) ) ) {
-                    $style_link = $link->getAttribute('href');
-                    continue;
+                    return $link->getAttribute( 'href' );
                 }
             }
         }
 
-        return $style_link;
+        return '';
     }
 
     /**
-     * Extract Theme Name from grab contents
-     * @params boolean $grab, flag to perform real time grab or use class content
-     * @returned array, an array of extracted Theme Name
+     * Check if file has key: value elements
+     * @params string $key, key to find
+     * @params string $value, value to find
+     * @returned boolean, wheter the key => value elements were found
      */
-    public function getThemeName( $grab = true, $url ) {
-        if ( $grab )
-            $this->grabContent();
+    public function getElementFromStyle( $key = null, $value = null ) {
+
         $url = $this->getStyleCssFile();
-        return $url;
-        /* TO DO */
+
+        if ( ! empty( $url ) ) {
+            $content = $this->grabContent( $url );
+
+            $pattern = "/" . $key . ":(.*)" . $value . "/";
+            if ( preg_match( $pattern, $content ) ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -112,13 +123,21 @@ class Scrapper_Parser {
      * Can be replace by file_get_contents() but it's very slow, cpu intensive
      * and does not handle redirects, caching, cookies, etc.
      */
-    private function grabContent() {
+    private function grabContent( $url = null ) {
+
+        $content = null;
+
+        $curl_url = $this->target_url;
+
+        if ( ! empty( $url ) ) {
+            $curl_url = $url;
+        }
         try {
-            $ch = curl_init( $this->target_url );
+            $ch = curl_init( $curl_url );
 
             curl_setopt_array($ch, $this->curl_options);
 
-            $this->content = curl_exec($ch);
+            $content = curl_exec($ch);
             if ($this->content === FALSE) {
                 throw new Exception();
             }
@@ -126,6 +145,66 @@ class Scrapper_Parser {
             $this->message = 'Unable to grab site contents';
         }
         curl_close($ch);
+
+        return $content;
     }
 
+    /**
+     * Set the DOMDocument
+     */
+    public function setDoc() {
+    	if ( $this->content ) {
+		    $doc = new DOMDocument();
+		    libxml_use_internal_errors(true);
+		    $doc->loadHTML( $this->content );
+		    libxml_clear_errors();
+		    $this->doc = $doc;
+	    }
+    }
+
+    /**
+     * Check if file has class from classes list
+     * @params array $class_list, list of ids to look for
+     * @returned boolean, wheter one of the classes was found
+     */
+    public function hasOneOfClass( $class_list = array() ) {
+	    if ( empty( $class_list ) ) {
+		    return false;
+	    }
+
+	    if ( $this->doc == null ) {
+		    return false;
+	    }
+
+	    $finder = new DomXPath( $this->doc );
+	    foreach ( $class_list as $element_class ) {
+		    $nodes = $finder->query( "//*[contains(@class, '$element_class')]" );
+		    if( $nodes->length > 0 ) {
+		    	return true;
+		    }
+	    }
+	    return false;
+    }
+
+    /**
+     * Check if file has id from ids list
+     * @params array $id_list, list of ids to look for
+     * @returned boolean, wheter one of the ids was found
+     */
+    public function hasOneOfIds( $id_list = array() ) {
+    	if ( empty( $id_list ) ) {
+    		return false;
+	    }
+
+	    if ( $this->doc == null ) {
+    		return false;
+	    }
+
+	    foreach ( $id_list as $element_id ) {
+		    if ( $this->doc->getElementById( $element_id ) != null ) {
+		    	return true;
+		    }
+	    }
+	    return false;
+    }
 }
