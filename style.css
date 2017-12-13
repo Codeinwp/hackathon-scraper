@@ -1,0 +1,28 @@
+.hero.is-primary {
+    height: 400px;
+}
+
+.container {
+    text-align: center;
+}
+
+.field {
+    margin: auto;
+}
+
+.middle {
+    margin: 20px auto;
+    text-align: center;
+}
+
+.searchbar-middle {
+    margin: 100px auto;
+}
+
+.field.has-addons {
+    justify-content: center;
+}
+
+.footer {
+    height: 100px;
+}
